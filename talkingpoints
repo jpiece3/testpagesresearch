@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talking Points — Matthew Topley</title>
+  <style>
+    /* === RESET & BASE === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1a1a2e;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 11px;
+    }
+
+    /* === PRINT OPTIMIZATION === */
+    @media print {
+      @page {
+        size: letter;
+        margin: 0.6in 0.65in;
+      }
+      body { background: white; font-size: 10px; }
+      .page-break { page-break-before: always; }
+      .no-print { display: none; }
+      .briefing-container { box-shadow: none; max-width: 100%; padding: 0; }
+    }
+
+    /* === LAYOUT === */
+    .briefing-container {
+      max-width: 7.5in;
+      margin: 0 auto;
+      padding: 0.25in;
+    }
+
+    /* === HEADER === */
+    .briefing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid #1a1a2e;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .briefing-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #1a1a2e;
+    }
+
+    .briefing-subtitle {
+      font-size: 9px;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    .briefing-meta {
+      text-align: right;
+      font-size: 9px;
+      color: #666;
+    }
+
+    .confidential-badge {
+      display: inline-block;
+      background: #e74c3c;
+      color: white;
+      font-size: 8px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* === SECTIONS === */
+    .section {
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #1a1a2e;
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 3px;
+      margin-bottom: 6px;
+    }
+
+    .section-title.warning {
+      color: #e74c3c;
+    }
+
+    /* === PRIMARY ANGLE === */
+    .primary-angle {
+      background: #f0f7ff;
+      border-left: 3px solid #1a5276;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .angle-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1a5276;
+    }
+
+    .angle-rationale {
+      font-size: 10px;
+      color: #444;
+      margin-top: 3px;
+    }
+
+    .angle-opening {
+      font-size: 10px;
+      color: #555;
+      font-style: italic;
+      margin-top: 3px;
+    }
+
+    .angle-label {
+      font-size: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #1a5276;
+      margin-bottom: 2px;
+    }
+
+    /* === SECONDARY ANGLES === */
+    .secondary-angle {
+      border-left: 2px solid #ddd;
+      padding: 6px 10px;
+      margin-bottom: 8px;
+    }
+
+    .secondary-angle .angle-name {
+      font-size: 10px;
+      color: #1a1a2e;
+    }
+
+    /* === KEY POINTS === */
+    .key-points {
+      list-style: none;
+      padding: 0;
+    }
+
+    .key-points li {
+      font-size: 10px;
+      color: #333;
+      padding: 3px 0;
+      padding-left: 14px;
+      position: relative;
+      margin-bottom: 2px;
+    }
+
+    .key-points li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #1a5276;
+    }
+
+    .key-points li strong {
+      color: #1a1a2e;
+    }
+
+    /* === OBJECTION BOX === */
+    .objection-box {
+      background: #fff8f0;
+      border-left: 3px solid #f39c12;
+      padding: 8px 10px;
+      margin-top: 6px;
+      margin-bottom: 8px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .objection-label {
+      font-size: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #f39c12;
+      margin-bottom: 2px;
+    }
+
+    .objection-text {
+      font-size: 10px;
+      color: #555;
+      font-style: italic;
+    }
+
+    .response-label {
+      font-size: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #27ae60;
+      margin-top: 6px;
+      margin-bottom: 2px;
+    }
+
+    .response-text {
+      font-size: 10px;
+      color: #444;
+    }
+
+    /* === QUESTIONS === */
+    .question-item {
+      margin-bottom: 6px;
+    }
+
+    .question-num {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a5276;
+      float: left;
+      margin-right: 8px;
+      line-height: 1.2;
+    }
+
+    .question-text {
+      font-size: 10px;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .question-reveals {
+      font-size: 9px;
+      color: #888;
+      margin-top: 1px;
+      font-style: italic;
+    }
+
+    /* === MEETING PREP === */
+    .prep-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .prep-cell {
+      font-size: 9px;
+    }
+
+    .prep-cell-label {
+      font-weight: 600;
+      color: #1a1a2e;
+      text-transform: uppercase;
+      font-size: 8px;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .prep-cell-value {
+      color: #444;
+    }
+
+    .rapport-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .rapport-list li {
+      font-size: 9px;
+      color: #444;
+      padding: 1px 0 1px 10px;
+      position: relative;
+    }
+
+    .rapport-list li::before {
+      content: '·';
+      position: absolute;
+      left: 2px;
+      font-weight: 700;
+      color: #1a5276;
+    }
+
+    /* === LANDMINES === */
+    .landmine-item {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 5px;
+      font-size: 10px;
+    }
+
+    .landmine-icon {
+      color: #e74c3c;
+      font-size: 12px;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+
+    .landmine-text { color: #333; font-weight: 600; }
+    .landmine-reason { color: #888; font-size: 9px; font-weight: 400; }
+
+    /* === FOLLOW-UP === */
+    .followup-box {
+      background: #f0fff4;
+      border-left: 3px solid #27ae60;
+      padding: 8px 10px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .followup-label {
+      font-size: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #27ae60;
+      margin-bottom: 2px;
+    }
+
+    .followup-text {
+      font-size: 10px;
+      color: #444;
+      font-style: italic;
+    }
+
+    /* === DISCLAIMER === */
+    .disclaimer {
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px solid #e0e0e0;
+      font-size: 8px;
+      color: #999;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="briefing-container">
+
+    <!-- ===== HEADER ===== -->
+    <div class="briefing-header">
+      <div>
+        <div class="briefing-title">Talking Points</div>
+        <div class="briefing-subtitle">Brothers Automate <span class="confidential-badge">Confidential</span></div>
+      </div>
+      <div class="briefing-meta">
+        Prospect: Matthew Topley<br>
+        Meeting: TBD<br>
+        Prepared for: James Pinder
+      </div>
+    </div>
+
+    <!-- ===== PRIMARY ANGLE ===== -->
+    <div class="section">
+      <div class="section-title">Primary Angle</div>
+
+      <div class="primary-angle">
+        <div class="angle-name">Business Succession & Exit Strategy in a Record M&A Market</div>
+        <div class="angle-rationale">The RIA M&A market hit an all-time record in 2025 with 322 deals, and 2026 is projected to exceed that. Valuations are at historic highs — average EBITDA multiples rose to 9.98x in 2025 with some deals at 12.5x+ for well-prepared firms. However, the buyer pool shrank from 117 to 95 while sellers grew, meaning only well-prepared sellers capture premium value. As a founder-operator of Lansing Street Advisors ($500M AUM, grown in just 5 years), Matt's firm is exactly the profile PE-backed platforms are actively pursuing. His firm value is heavily tied to him personally — documented succession planning needs to start now to maximize value and options.</div>
+      </div>
+
+      <div class="angle-label">Opening</div>
+      <div class="angle-opening">"Matt, the RIA M&A market just had its biggest year ever — 322 deals in 2025, with average multiples hitting nearly 10x EBITDA. As a founder-operator, your firm is exactly the profile PE-backed platforms are actively pursuing. The question isn't whether you'll get approached — it's whether you'll be prepared when the right offer comes. Have you mapped out what your exit or succession looks like?"</div>
+
+      <div style="margin-top: 8px;">
+        <div class="angle-label">Key Points</div>
+        <ul class="key-points">
+          <li><strong>The timing window is now:</strong> Valuations are at all-time highs with firms his size fetching 9-12x EBITDA, but the buyer pool is shrinking (95 buyers for 322 sellers in 2025). The firms that capture premium value are the ones that prepare early — reducing key-person risk, documenting processes, building team structure. Waiting until he's ready to sell means leaving millions on the table.</li>
+          <li><strong>The RIA industry is bifurcating:</strong> Large PE-backed firms control 88% of assets and are aggressively acquiring smaller independents. His firm is in the sweet spot — too big to stay solo forever, not yet large enough to compete with mega-platforms on technology and scale. The next 3-5 years will determine whether he builds scale through acquisitions, takes a minority investment, or sells at the peak.</li>
+          <li><strong>Succession planning isn't just about exit — it's about protection:</strong> If something happened to him tomorrow, what happens to the firm's $500M in client assets? To his family's financial security? Key person insurance, buy-sell agreements, and operational documentation are business protection tools that also happen to make the firm worth significantly more at exit.</li>
+        </ul>
+      </div>
+
+      <div class="objection-box">
+        <div class="objection-label">Potential Objection</div>
+        <div class="objection-text">"I'm not planning to sell anytime soon — I love what I'm doing and the firm is growing."</div>
+        <div class="response-label">Response</div>
+        <div class="response-text">"That's exactly the right mindset — and the best time to plan for succession is when you're NOT under pressure to sell. The preparation you do now — reducing key-person risk, documenting your investment process, building a team that can operate independently — those are the same things that make the firm more valuable and more enjoyable to run. The difference between founders who capture premium multiples and those who don't is that the successful ones started planning 3-5 years before they were ready to pull the trigger. You're building something valuable — let's make sure you capture that value on your terms when the time comes."</div>
+      </div>
+    </div>
+
+    <!-- ===== SECONDARY ANGLES ===== -->
+    <div class="section">
+      <div class="section-title">Secondary Angles</div>
+
+      <!-- Angle 2: Key Person Risk -->
+      <div class="secondary-angle">
+        <div class="angle-name">Business Valuation & Key Person Risk Mitigation</div>
+        <div class="angle-rationale" style="margin-top: 3px;">In a small independent RIA, the founder IS the primary asset. Buyers paying 20x EBITDA for well-run RIAs expect enterprise-grade systems, documented processes, and operating models that reduce key-person dependency. Firms with team structures average $330M AUM vs $95M for solo advisors — and command materially higher multiples at exit.</div>
+        <div style="margin-top: 4px;">
+          <div class="angle-label">Opening</div>
+          <div class="angle-opening">"Here's something that keeps a lot of RIA founders up at night — and the ones who address it end up with firms worth 2-3x more at exit. If something happened to you tomorrow, how much of Lansing Street's value walks out the door? Buyers are now paying premiums for firms that have reduced key-person risk through team structure and documented processes."</div>
+        </div>
+        <ul class="key-points" style="margin-top: 4px;">
+          <li><strong>Key person risk is the #1 valuation killer:</strong> The difference between a 6x and a 12x multiple often comes down to whether client relationships are systematized, the investment process is documented, and the team can operate without the founder. This isn't about replacing Matt — it's about building enterprise value.</li>
+          <li><strong>Insurance as both protection and deal enabler:</strong> Key person life and disability insurance protects his family, but it also reassures buyers that there's a funded transition plan. Buy-sell agreements funded with life insurance ensure his family gets fair value even if he's not around to negotiate.</li>
+        </ul>
+      </div>
+
+      <!-- Angle 3: Tax-Optimized Retirement -->
+      <div class="secondary-angle">
+        <div class="angle-name">Tax-Optimized Retirement Plans for Maximum Wealth Accumulation</div>
+        <div class="angle-rationale" style="margin-top: 3px;">As a high-earning business owner (est. $1.5M-$3.5M firm revenue), Matt can leverage defined benefit/cash balance plans stacked with a 401(k) to shelter significantly more income than standard plans allow. Combined with the permanent QBI deduction (One Big Beautiful Bill Act), optimized salary vs distribution mix, and PA pass-through entity tax election, there's a comprehensive tax reduction strategy available.</div>
+        <div style="margin-top: 4px;">
+          <div class="angle-label">Opening</div>
+          <div class="angle-opening">"Matt, most RIA owners I talk to are leaving serious money on the table when it comes to their own retirement planning — the irony of advising clients on retirement without maximizing their own. With the QBI deduction now permanent and bonus depreciation restored, there's a window to stack a cash balance plan on top of your 401(k) and potentially shelter an additional $200K or more per year. Have you looked at what that would mean for your tax situation?"</div>
+        </div>
+        <ul class="key-points" style="margin-top: 4px;">
+          <li><strong>The math is compelling:</strong> If he's earning $500K+ personally, a cash balance plan could shelter an additional $200K-$300K per year in tax-deductible contributions beyond his 401(k). At a 37% federal + 3.07% PA state rate, that's $120K+ in annual tax savings compounded over 10-15 years until exit.</li>
+          <li><strong>Tax law stability creates planning certainty:</strong> The One Big Beautiful Bill Act (enacted July 2025) made the QBI deduction, bonus depreciation, and estate tax exemptions permanent — eliminating the 2026 sunset cliff. This is the window to maximize tax-advantaged wealth accumulation before he exits.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== PAGE BREAK ===== -->
+    <div class="page-break"></div>
+
+    <!-- ===== QUESTIONS TO ASK ===== -->
+    <div class="section">
+      <div class="section-title">Questions to Ask</div>
+      <div style="font-size: 9px; color: #888; margin-bottom: 6px;">Select 2-3 based on conversation flow. These fill gaps in research and deepen the relationship.</div>
+
+      <div class="question-item">
+        <span class="question-num">1</span>
+        <div>
+          <div class="question-text">What does the next 5-10 years look like for you personally and professionally?</div>
+          <div class="question-reveals">Reveals: exit timeline, whether he's building to sell or building a legacy firm, personal goals beyond the business</div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+
+      <div class="question-item">
+        <span class="question-num">2</span>
+        <div>
+          <div class="question-text">If something happened to you tomorrow, who would run the firm? How would clients be served?</div>
+          <div class="question-reveals">Reveals: succession planning gaps, key person dependency, whether he has a documented continuity plan</div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+
+      <div class="question-item">
+        <span class="question-num">3</span>
+        <div>
+          <div class="question-text">Are you working with a business attorney and tax advisor on entity structure and exit planning, or is that something you handle internally?</div>
+          <div class="question-reveals">Reveals: sophistication of current planning, gaps in advisory team, competitive landscape for our services</div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+
+      <div class="question-item">
+        <span class="question-num">4</span>
+        <div>
+          <div class="question-text">What percentage of your net worth is tied up in the business vs liquid investable assets?</div>
+          <div class="question-reveals">Reveals: concentrated position risk, diversification needs, whether he's ready for a partial liquidity event</div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+
+      <div class="question-item">
+        <span class="question-num">5</span>
+        <div>
+          <div class="question-text">Have you been approached by any PE-backed platforms or larger RIAs about acquisition or partnership?</div>
+          <div class="question-reveals">Reveals: market interest in his firm, whether he's thinking about exit, competitive urgency for our engagement</div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+    </div>
+
+    <!-- ===== MEETING PREPARATION ===== -->
+    <div class="section">
+      <div class="section-title">Meeting Preparation</div>
+
+      <div class="prep-grid">
+        <div class="prep-cell">
+          <div class="prep-cell-label">Dress Code</div>
+          <div class="prep-cell-value">Business professional. Financial services RIA in suburban Philadelphia — err on the side of formal (suit or blazer, conservative). He came from institutional finance backgrounds (Turner Investments, Fortis Wealth family office) so likely expects traditional professional presentation.</div>
+        </div>
+        <div class="prep-cell">
+          <div class="prep-cell-label">Rapport Builders</div>
+          <ul class="rapport-list">
+            <li>BLOCS scholarship work (his most passionate cause — education for first-generation college students)</li>
+            <li>Fast 50 recognition and explosive firm growth</li>
+            <li>His daily blog (Topley's Top 10) — authentic way to show you've done homework</li>
+            <li>Youth basketball coaching (he coaches in his free time)</li>
+            <li>Reading and intellectual curiosity (he's a "voracious reader" — recommended "The Body Keeps the Score" on Kitces podcast)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LANDMINES ===== -->
+    <div class="section">
+      <div class="section-title warning">Conversations to Avoid</div>
+      <div class="landmine-item">
+        <span class="landmine-icon">!</span>
+        <div>
+          <span class="landmine-text">Pennsylvania DOBS Order to Show Cause (2023)</span> —
+          <span class="landmine-reason">Regarding real estate fund registration matters. Do NOT bring up unless he mentions it first.</span>
+        </div>
+      </div>
+      <div class="landmine-item">
+        <span class="landmine-icon">!</span>
+        <div>
+          <span class="landmine-text">Jake Matthew Topley obituary (2018)</span> —
+          <span class="landmine-reason">Possible family loss — extremely sensitive. Do NOT bring up unless he mentions it first.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FOLLOW-UP COMMITMENT ===== -->
+    <div class="section">
+      <div class="section-title">Follow-Up Commitment</div>
+      <div class="followup-box">
+        <div class="followup-label">Proposed Close</div>
+        <div class="followup-text">"I'd love to run a quick analysis on what your firm might look like in an exit scenario — mapping out the tax implications of different deal structures and timing options, and identifying the 3-5 things you could do now to increase valuation by reducing key-person risk. This wouldn't be generic — it would be specific to Lansing Street's AUM, growth rate, and your personal situation. Can I send that over next week?"</div>
+      </div>
+    </div>
+
+    <!-- ===== DISCLAIMER ===== -->
+    <div class="disclaimer">
+      ⚠ Compiled from 102 public sources on February 7, 2026. Verify all information directly with the prospect. This document is confidential and intended solely for the named recipient's meeting preparation.
+    </div>
+
+  </div>
+</body>
+</html>
