@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prospect Card — Matthew Topley</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1a1a2e;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 12px;
+    }
+
+    @media print {
+      @page {
+        size: letter;
+        margin: 0.75in;
+      }
+      body { background: white; }
+      .card-container { box-shadow: none; border: none; max-width: 100%; }
+    }
+
+    .card-container {
+      max-width: 6in;
+      margin: 0.5in auto;
+      padding: 24px 28px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+    }
+
+    /* === HEADER === */
+    .card-header {
+      text-align: center;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #1a1a2e;
+      margin-bottom: 16px;
+    }
+
+    .card-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .card-name {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1a1a2e;
+      line-height: 1.1;
+    }
+
+    .card-title-company {
+      font-size: 13px;
+      color: #555;
+      margin-top: 4px;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 8px;
+      font-size: 11px;
+      color: #777;
+    }
+
+    .card-meta strong { color: #1a1a2e; }
+
+    /* === SECTIONS === */
+    .card-section {
+      margin-bottom: 16px;
+    }
+
+    .card-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #1a5276;
+      margin-bottom: 6px;
+    }
+
+    .card-section-title.avoid {
+      color: #c0392b;
+    }
+
+    .card-section-title.angle {
+      color: #27ae60;
+    }
+
+    /* === KEY FACTS === */
+    .key-facts {
+      list-style: none;
+      padding: 0;
+    }
+
+    .key-facts li {
+      font-size: 12px;
+      padding: 4px 0;
+      padding-left: 16px;
+      position: relative;
+      color: #333;
+    }
+
+    .key-facts li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 8px;
+      height: 8px;
+      background: #1a5276;
+      border-radius: 50%;
+    }
+
+    /* === TALKING POINTS === */
+    .talking-points {
+      list-style: none;
+      padding: 0;
+      counter-reset: tp;
+    }
+
+    .talking-points li {
+      font-size: 12px;
+      padding: 6px 0;
+      padding-left: 24px;
+      position: relative;
+      color: #333;
+      counter-increment: tp;
+    }
+
+    .talking-points li::before {
+      content: counter(tp);
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 18px;
+      height: 18px;
+      background: #1a5276;
+      color: white;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tp-topic {
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .tp-hook {
+      color: #555;
+      font-style: italic;
+    }
+
+    /* === AVOID === */
+    .avoid-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .avoid-list li {
+      font-size: 12px;
+      padding: 4px 0;
+      padding-left: 20px;
+      position: relative;
+      color: #555;
+    }
+
+    .avoid-list li::before {
+      content: '\2717';
+      position: absolute;
+      left: 0;
+      color: #c0392b;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* === PRIMARY ANGLE === */
+    .primary-angle-box {
+      background: #f0f7ff;
+      border-left: 4px solid #1a5276;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      margin-top: 4px;
+    }
+
+    .primary-angle-arrow {
+      color: #1a5276;
+      font-size: 14px;
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    .primary-angle-text {
+      font-size: 12px;
+      color: #333;
+    }
+
+    /* === FOOTER === */
+    .card-footer {
+      text-align: center;
+      padding-top: 12px;
+      border-top: 1px solid #e0e0e0;
+      margin-top: 16px;
+      font-size: 9px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="card-container">
+
+    <div class="card-header">
+      <div class="card-label">Prospect Card</div>
+      <div class="card-name">Matthew Topley</div>
+      <div class="card-title-company">Founder & President / CIO at Lansing Street Advisors</div>
+      <div class="card-meta">
+        <span>Ambler, PA</span>
+        <span>Est. AUM: <strong>$450M-$500M</strong></span>
+      </div>
+    </div>
+
+    <!-- Key Facts -->
+    <div class="card-section">
+      <div class="card-section-title">Key Facts</div>
+      <ul class="key-facts">
+        <li>Grew firm from $0 to $500M AUM in 5 years (2020-present) — ranked #23 on Philadelphia Business Journal Fast 50 with 30.64% two-year revenue growth</li>
+        <li>Publishes daily 'Topley's Top 10' blog and weekly 'Smarter in 10 Minutes' newsletter — prolific content creator frequently quoted in Philadelphia Inquirer and national media</li>
+        <li>Deep philanthropic commitment: BLOCS board chairman (2017-2022), grew scholarships from $2M to $35M during tenure, special focus on first-generation college students</li>
+      </ul>
+    </div>
+
+    <!-- Top 3 Talking Points -->
+    <div class="card-section">
+      <div class="card-section-title">Top 3 Talking Points</div>
+      <ol class="talking-points">
+        <li>
+          <span class="tp-topic">BLOCS Scholarship Impact</span>
+          <span class="tp-hook">"I saw you served as BLOCS chairman — the growth from $2M to $35M in scholarships is incredible. What was the most rewarding part of that work?"</span>
+        </li>
+        <li>
+          <span class="tp-topic">Fast 50 & Explosive Firm Growth</span>
+          <span class="tp-hook">"Congrats on ranking #23 on the Fast 50 — growing to $500M AUM in 5 years is an impressive trajectory. What's been the biggest unlock?"</span>
+        </li>
+        <li>
+          <span class="tp-topic">Daily Blog / Thought Leadership</span>
+          <span class="tp-hook">"I read your Top 10 this morning — the piece on [recent topic] really resonated. How long have you been doing the daily blog?"</span>
+        </li>
+      </ol>
+    </div>
+
+    <!-- 2 Things to Avoid -->
+    <div class="card-section">
+      <div class="card-section-title avoid">2 Things to Avoid</div>
+      <ul class="avoid-list">
+        <li>Pennsylvania DOBS regulatory matter (2023) regarding real estate fund registration — do NOT bring up unless he mentions it first</li>
+        <li>Jake Matthew Topley obituary (2018) — possible family connection, extremely sensitive topic, avoid entirely unless he raises it</li>
+      </ul>
+    </div>
+
+    <!-- Primary Planning Angle -->
+    <div class="card-section">
+      <div class="card-section-title angle">Primary Planning Angle</div>
+      <div class="primary-angle-box">
+        <span class="primary-angle-arrow">&#8594;</span>
+        <span class="primary-angle-text">Business Succession & Exit Strategy: The RIA M&A market hit a record 322 deals in 2025 with average multiples at 9.98x EBITDA. As a founder-operator of a fast-growing RIA, he's exactly the profile PE-backed platforms are pursuing. The question is whether he'll be prepared when the right offer comes — succession planning now maximizes value and options.</span>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      Prepared February 7, 2026 &middot; Brothers Automate &middot; Confidential
+    </div>
+
+  </div>
+</body>
+</html>

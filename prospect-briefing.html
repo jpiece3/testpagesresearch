@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prospect Intelligence Briefing — Matthew Topley</title>
+  <style>
+    /* === RESET & BASE === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1a1a2e;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 11px;
+    }
+
+    /* === PRINT OPTIMIZATION === */
+    @media print {
+      @page {
+        size: letter;
+        margin: 0.6in 0.65in;
+      }
+      body { background: white; font-size: 10px; }
+      .page-break { page-break-before: always; }
+      .no-print { display: none; }
+      .briefing-container { box-shadow: none; max-width: 100%; padding: 0; }
+    }
+
+    /* === LAYOUT === */
+    .briefing-container {
+      max-width: 7.5in;
+      margin: 0 auto;
+      padding: 0.25in;
+    }
+
+    /* === HEADER === */
+    .briefing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid #1a1a2e;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .briefing-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #1a1a2e;
+    }
+
+    .briefing-subtitle {
+      font-size: 9px;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    .briefing-meta {
+      text-align: right;
+      font-size: 9px;
+      color: #666;
+    }
+
+    .confidential-badge {
+      display: inline-block;
+      background: #e74c3c;
+      color: white;
+      font-size: 8px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* === EXECUTIVE SNAPSHOT === */
+    .snapshot-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .initials-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .snapshot-details {
+      flex: 1;
+    }
+
+    .prospect-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a2e;
+      line-height: 1.2;
+    }
+
+    .prospect-title-company {
+      font-size: 11px;
+      color: #444;
+      margin-top: 2px;
+    }
+
+    .snapshot-meta {
+      display: flex;
+      gap: 16px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      font-size: 9px;
+      color: #666;
+    }
+
+    .meta-item strong {
+      color: #1a1a2e;
+    }
+
+    .wealth-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: 600;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .confidence-dots {
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    .dot-filled { color: #27ae60; }
+    .dot-empty { color: #ddd; }
+
+    /* === SECTIONS === */
+    .section {
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #1a1a2e;
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 3px;
+      margin-bottom: 6px;
+    }
+
+    .section-title.warning {
+      color: #e74c3c;
+    }
+
+    /* === BIO & CAREER === */
+    .bio-summary {
+      font-size: 11px;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    .career-timeline {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      font-size: 9px;
+      color: #555;
+      flex-wrap: wrap;
+    }
+
+    .career-step {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .career-step .role { font-weight: 600; color: #1a1a2e; }
+    .career-arrow { color: #ccc; }
+    .education-line { font-size: 9px; color: #666; margin-top: 3px; }
+
+    /* === BUSINESS OVERVIEW === */
+    .stat-bar {
+      display: flex;
+      gap: 0;
+      margin-top: 6px;
+    }
+
+    .stat-cell {
+      flex: 1;
+      text-align: center;
+      padding: 6px 4px;
+      border: 1px solid #e8e8e8;
+      border-right: none;
+    }
+
+    .stat-cell:last-child { border-right: 1px solid #e8e8e8; }
+    .stat-cell:first-child { border-radius: 4px 0 0 4px; }
+    .stat-cell:last-child { border-radius: 0 4px 4px 0; }
+
+    .stat-label {
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #888;
+    }
+
+    .stat-value {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-top: 2px;
+    }
+
+    .conf-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-left: 3px;
+      vertical-align: middle;
+    }
+
+    .conf-high { background: #27ae60; }
+    .conf-medium { background: #f39c12; }
+    .conf-low { background: #e74c3c; }
+
+    /* === WEALTH SIGNALS === */
+    .signal-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .signal-list li {
+      font-size: 10px;
+      color: #333;
+      padding: 2px 0;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .signal-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .signal-strong::before { background: #27ae60; }
+    .signal-moderate::before { background: #f39c12; }
+    .signal-weak::before { background: #e74c3c; }
+
+    .aum-alignment {
+      font-size: 9px;
+      color: #555;
+      margin-top: 4px;
+      padding: 4px 8px;
+      background: #f8f9fa;
+      border-radius: 3px;
+    }
+
+    /* === CONVERSATION STARTERS === */
+    .starter-item {
+      margin-bottom: 8px;
+    }
+
+    .starter-num {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a5276;
+      float: left;
+      margin-right: 8px;
+      line-height: 1.2;
+    }
+
+    .starter-topic {
+      font-size: 10px;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .starter-hook {
+      font-size: 10px;
+      color: #555;
+      font-style: italic;
+      margin-top: 1px;
+    }
+
+    .starter-why {
+      font-size: 8px;
+      color: #888;
+      margin-top: 1px;
+    }
+
+    /* === LANDMINES === */
+    .landmine-item {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 5px;
+      font-size: 10px;
+    }
+
+    .landmine-icon {
+      color: #e74c3c;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .landmine-text { color: #333; }
+    .landmine-reason { color: #888; font-size: 9px; }
+
+    /* === PLANNING ANGLES === */
+    .primary-angle {
+      background: #f0f7ff;
+      border-left: 3px solid #1a5276;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .angle-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1a5276;
+    }
+
+    .angle-rationale {
+      font-size: 10px;
+      color: #444;
+      margin-top: 3px;
+    }
+
+    .angle-opening {
+      font-size: 10px;
+      color: #555;
+      font-style: italic;
+      margin-top: 3px;
+    }
+
+    .secondary-angles {
+      list-style: none;
+      padding: 0;
+    }
+
+    .secondary-angles li {
+      font-size: 10px;
+      color: #333;
+      padding: 3px 0;
+      padding-left: 10px;
+      border-left: 2px solid #ddd;
+      margin-bottom: 4px;
+    }
+
+    .secondary-angles .angle-label { font-weight: 600; }
+
+    /* === MARKET CONTEXT === */
+    .market-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .market-cell {
+      font-size: 9px;
+    }
+
+    .market-cell-label {
+      font-weight: 600;
+      color: #1a1a2e;
+      text-transform: uppercase;
+      font-size: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .market-cell-value {
+      color: #444;
+      margin-top: 2px;
+    }
+
+    /* === ACTION ITEMS === */
+    .action-items {
+      list-style: none;
+      padding: 0;
+    }
+
+    .action-items li {
+      font-size: 10px;
+      padding: 3px 0;
+      padding-left: 20px;
+      position: relative;
+      color: #333;
+    }
+
+    .action-items li::before {
+      position: absolute;
+      left: 0;
+      font-size: 10px;
+    }
+
+    .action-verify::before { content: '?'; color: #f39c12; font-weight: 700; }
+    .action-ask::before { content: '?'; color: #3498db; font-weight: 700; }
+    .action-propose::before { content: '>'; color: #27ae60; font-weight: 700; }
+
+    .action-label {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .action-verify .action-label { color: #f39c12; }
+    .action-ask .action-label { color: #3498db; }
+    .action-propose .action-label { color: #27ae60; }
+
+    /* === DISCLAIMER === */
+    .disclaimer {
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px solid #e0e0e0;
+      font-size: 8px;
+      color: #999;
+      line-height: 1.4;
+    }
+
+    .disclaimer-icon { margin-right: 4px; }
+
+    /* === EMPTY STATE === */
+    .empty-state {
+      font-size: 10px;
+      color: #999;
+      font-style: italic;
+      padding: 4px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="briefing-container">
+
+    <!-- ===== PAGE 1: RESEARCH SUMMARY ===== -->
+
+    <div class="briefing-header">
+      <div>
+        <div class="briefing-title">Prospect Intelligence Briefing</div>
+        <div class="briefing-subtitle">Brothers Automate <span class="confidential-badge">Confidential</span></div>
+      </div>
+      <div class="briefing-meta">
+        Prepared: February 7, 2026<br>
+        Meeting: TBD
+      </div>
+    </div>
+
+    <!-- Executive Snapshot -->
+    <div class="snapshot-row">
+      <div class="initials-circle" style="background-color: #1e8449;">
+        MT
+      </div>
+      <div class="snapshot-details">
+        <div class="prospect-name">Matthew Topley</div>
+        <div class="prospect-title-company">Founder & President / CIO at Lansing Street Advisors</div>
+        <div class="snapshot-meta">
+          <span class="meta-item">Ambler, PA</span>
+          <span class="meta-item">Est. AUM: <strong>$450M-$500M</strong></span>
+          <span class="wealth-badge" style="background-color: #1e8449;">HIGH WEALTH</span>
+          <span class="meta-item">Confidence: <span class="confidence-dots"><span class="dot-filled">●</span><span class="dot-filled">●</span><span class="dot-filled">●</span><span class="dot-filled">●</span><span class="dot-filled">●</span></span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bio & Career -->
+    <div class="section">
+      <div class="section-title">Bio & Career</div>
+      <div class="bio-summary">Matt Topley is Founder and President of Lansing Street Advisors, an SEC-registered RIA in Ambler, PA that has grown to $500 million in assets under management since its founding in 2020. During an accomplished 25-year career in finance, he ran trading for a $1.5 billion hedge fund, was a partner at Turner Investments for 17 years (where assets grew from $1.5B to $30B), created and ran the Convergence Fund (a concentrated small-cap stock fund), and founded the Lansing Street Real Estate Fund with $50M in assets. He is a prolific content creator, publishing the daily 'Topley's Top 10' blog and the weekly 'Smarter in 10 Minutes' newsletter, and is frequently quoted in national media outlets.</div>
+      <div class="career-timeline">
+        <span class="career-step"><span class="role">Founder/President/CIO @ Lansing Street Advisors</span> <span class="years">(2020-Present, $500M AUM)</span></span> <span class="career-arrow">←</span>
+        <span class="career-step"><span class="role">CIO @ Fortis Wealth</span> <span class="years">(Family Office, -2020)</span></span> <span class="career-arrow">←</span>
+        <span class="career-step"><span class="role">Partner @ Turner Investments</span> <span class="years">(17 years)</span></span>
+      </div>
+      <div class="education-line">MA Organizational Dynamics (UPenn) • MBA (LaSalle) • BA (Holy Family)</div>
+    </div>
+
+    <!-- Business Overview -->
+    <div class="section">
+      <div class="section-title">Business Overview</div>
+      <div class="bio-summary">A full-service fiduciary firm specializing in wealth enhancement, wealth protection, wealth transfer, business exit planning, and life strategy advice. The firm offers investment consulting, financial planning, family office services, and private real estate syndication through the Lansing Street Real Estate Fund. Positions itself as a holistic wealth management firm combining proven programs to diversify and strengthen wealth while maintaining or improving cash flow.</div>
+      <div class="stat-bar">
+        <div class="stat-cell">
+          <div class="stat-label">Revenue</div>
+          <div class="stat-value">$1.5M-$3.5M<span class="conf-dot conf-medium"></span></div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Employees</div>
+          <div class="stat-value">5-8<span class="conf-dot conf-high"></span></div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Growth</div>
+          <div class="stat-value">30.64%<span class="conf-dot conf-high"></span></div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Domain Rank</div>
+          <div class="stat-value">380<span class="conf-dot conf-high"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wealth Signals -->
+    <div class="section">
+      <div class="section-title">Wealth Signals</div>
+      <ul class="signal-list">
+        <li class="signal-strong">Founder/sole owner of SEC-registered RIA with $450-500M AUM generating estimated $3-5M annual revenue</li>
+        <li class="signal-strong">25-year career in finance: trading for $1.5B hedge fund, partner at Turner Investments ($1.5B to $30B growth), CIO at Fortis Wealth (ultra-HNW family office)</li>
+        <li class="signal-strong">Founded Lansing Street Real Estate Fund with $50M in assets; raised over $100M for private real estate across 60+ transactions</li>
+        <li class="signal-moderate">Philadelphia100 ranked #32 and Fast 50 ranked #23 - verified revenue growth and business scale</li>
+        <li class="signal-moderate">AdvisorHub 'Advisors to Watch' three consecutive years (2023-2025) - requires minimum $150M AUM and clean regulatory record</li>
+      </ul>
+      <div class="aum-alignment">AUM Assessment: Research confirms $450M-$500M AUM (high confidence) — multiple corroborating sources including company website, Form ADV ($438.7M regulatory AUM across 92 clients), and Philadelphia Inquirer reference to '$450 million-asset' firm. The firm's AUM has been growing consistently since crossing $100M SEC registration threshold by mid-2022.</div>
+    </div>
+
+    <!-- ===== PAGE 2: MEETING PREPARATION ===== -->
+    <div class="page-break"></div>
+
+    <!-- Conversation Starters -->
+    <div class="section">
+      <div class="section-title">Conversation Starters</div>
+
+      <div class="starter-item">
+        <span class="starter-num">1</span>
+        <div>
+          <div class="starter-topic">BLOCS Scholarship Impact</div>
+          <div class="starter-hook">"I saw you served as BLOCS chairman — the growth from $2M to $35M in scholarships during your tenure is incredible. What was the most rewarding part of that work?"</div>
+          <div class="starter-why">Source: Philadelphia Inquirer Influencers of Finance profile; BLOCS website. This is his most passionate cause — education and first-generation college students. He clearly takes deep pride in this work.</div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+
+      <div class="starter-item">
+        <span class="starter-num">2</span>
+        <div>
+          <div class="starter-topic">Fast 50 & Firm Growth</div>
+          <div class="starter-hook">"Congrats on ranking #23 on the Philadelphia Business Journal Fast 50 — growing to $500M AUM in 5 years is an impressive trajectory. What's been the biggest unlock for that growth?"</div>
+          <div class="starter-why">Source: LinkedIn posts, Philadelphia Business Journal. He's proud of this achievement and it's recent news. Shows respect for what he's built while opening conversation about growth strategy.</div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+
+      <div class="starter-item">
+        <span class="starter-num">3</span>
+        <div>
+          <div class="starter-topic">The View from the Top / Topley's Top 10 Blog</div>
+          <div class="starter-hook">"I read your Top 10 this morning — the piece on [recent topic] really resonated. How long have you been doing the daily blog?"</div>
+          <div class="starter-why">Source: matttopley.com. He publishes daily and puts significant effort into curating financial insights, behavioral science, and life philosophy. This is an authentic, natural icebreaker that shows you've done homework.</div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+    </div>
+
+    <!-- Landmines to Avoid -->
+    <div class="section">
+      <div class="section-title warning">Landmines to Avoid</div>
+
+      <div class="landmine-item">
+        <span class="landmine-icon">!</span>
+        <div>
+          <span class="landmine-text">Pennsylvania DOBS Order to Show Cause (2023)</span> —
+          <span class="landmine-reason">A 2023 PA regulatory filing named Lansing Street Advisors and Matt Topley regarding real estate fund registration matters during 2020-2022. Do NOT raise this unless he brings it up first. It could be perceived as confrontational. Note: His individual IAPD shows zero disclosures, and the firm subsequently received SEC approval.</span>
+        </div>
+      </div>
+
+      <div class="landmine-item">
+        <span class="landmine-icon">!</span>
+        <div>
+          <span class="landmine-text">Jake Matthew Topley obituary (2018)</span> —
+          <span class="landmine-reason">An obituary for "Jake Matthew Topley" from 2018 appeared in search results from a Bucks County funeral home. Relationship to Matt is unconfirmed but the shared surname and geography suggest a possible family connection. Do NOT bring this up unless Matt mentions it first — this could be an extremely sensitive topic.</span>
+        </div>
+      </div>
+
+      <div class="landmine-item">
+        <span class="landmine-icon">!</span>
+        <div>
+          <span class="landmine-text">Avoid discussing specific net worth or asset details</span> —
+          <span class="landmine-reason">Standard professional courtesy: avoid discussing specific financial details until the relationship is established and he offers this information.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Financial Planning Angles -->
+    <div class="section">
+      <div class="section-title">Financial Planning Angles</div>
+
+      <div class="primary-angle">
+        <div class="angle-name">Business Succession & Exit Strategy in a Record M&A Market</div>
+        <div class="angle-rationale">The RIA M&A market hit an all-time record in 2025 with 322 deals, and 2026 is projected to exceed that. Valuations are at historic highs — average EBITDA multiples rose to 9.98x in 2025 with some deals at 12.5x+ for well-prepared firms. However, the buyer pool shrank from 117 to 95 while sellers grew, meaning only well-prepared sellers capture premium value. As a founder-operator, Topley's firm value is heavily tied to him personally. A structured succession plan — whether internal transition, minority PE recapitalization, or eventual full sale — needs to start now to maximize value and options.</div>
+        <div class="angle-opening">"Matt, the RIA M&A market just had its biggest year ever — 322 deals in 2025, with average multiples hitting nearly 10x EBITDA. As a founder-operator, your firm is exactly the profile PE-backed platforms are actively pursuing. The question isn't whether you'll get approached — it's whether you'll be prepared when the right offer comes. Have you mapped out what your exit or succession looks like?"</div>
+      </div>
+
+      <ul class="secondary-angles">
+        <li><span class="angle-label">Business Valuation & Key Person Risk Mitigation:</span> In a small independent RIA, the founder IS the primary asset. If Topley is unable to work, the firm's recurring revenue stream is at risk because client relationships are concentrated in one person. Key person life and disability insurance, buy-sell agreement funding, and operational documentation that reduces key-person dependency are critical for both protecting his family and maximizing firm value in any future transaction.</li>
+
+        <li><span class="angle-label">Tax-Optimized Retirement Plans:</span> As a high-earning business owner, Topley can leverage defined benefit/cash balance plans stacked with a 401(k) to shelter significantly more income than a standard retirement plan allows. A cash balance plan could allow $200K-$300K+ in annual tax-deductible contributions. Combined with the permanent QBI deduction and optimized salary vs distribution mix, there's a comprehensive tax reduction strategy available.</li>
+
+        <li><span class="angle-label">Concentrated Business Risk & Personal Wealth Diversification:</span> Like most small RIA founders, the majority of Topley's net worth is likely concentrated in his business. With RIA valuations at historic highs and PE firms actively offering minority recapitalizations, there are now structured ways to take partial liquidity, diversify personal wealth, and still retain operational control of the firm.</li>
+      </ul>
+    </div>
+
+    <!-- Market Context -->
+    <div class="section">
+      <div class="section-title">Market Context</div>
+      <div class="market-grid">
+        <div class="market-cell">
+          <div class="market-cell-label">Industry Outlook</div>
+          <div class="market-cell-value">RIA industry experiencing record growth — $144.6T AUM (+12.6% YoY) but bifurcating sharply. Large firms control 88% of assets. Small independents face PE-backed consolidation pressure, fee compression, and succession crisis. Next 3-5 years are a critical window for strategic positioning.</div>
+        </div>
+        <div class="market-cell">
+          <div class="market-cell-label">Recent M&A</div>
+          <div class="market-cell-value">Record 322 deals in 2025 (+18% YoY). Madison Dearborn acquired Wealthspire for $2.7B at 21.3x EBITDA (Sep '25). Ares took minority stake in EP Wealth $40B (Sep '25). Merit Financial (11 deals) and Carson/EP Wealth kicked off 2026 dealmaking. Seller's market continues.</div>
+        </div>
+        <div class="market-cell">
+          <div class="market-cell-label">Regulatory</div>
+          <div class="market-cell-value">SEC 2026 priorities: fiduciary duty, marketing rule, custody. Reg S-P cybersecurity compliance deadline June 3, 2026 for smaller RIAs. Jan 2026 enforcement actions on hedge clauses and custody failures. Compliance burden disproportionate for small firms.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Items -->
+    <div class="section">
+      <div class="section-title">Action Items for This Meeting</div>
+      <ul class="action-items">
+        <li class="action-ask"><span class="action-label">Ask about:</span> His current succession plan or exit timeline — only 42% of RIA firms have written succession plans. Is he considering internal transition, minority recapitalization, or eventual full sale?</li>
+
+        <li class="action-ask"><span class="action-label">Ask about:</span> Current key person insurance coverage and buy-sell agreement funding. If something happened to him, what's the plan for the business and his family's financial security?</li>
+
+        <li class="action-ask"><span class="action-label">Ask about:</span> Current retirement planning structure — is he maximizing tax-deferred contributions through a cash balance plan or defined benefit plan on top of his 401(k)?</li>
+
+        <li class="action-ask"><span class="action-label">Ask about:</span> Personal wealth diversification — what percentage of his net worth is concentrated in the business vs liquid investable assets?</li>
+
+        <li class="action-propose"><span class="action-label">Propose:</span> "I'd love to run a quick analysis on what your firm might look like in an exit scenario — mapping out the tax implications of different deal structures and timing options. Can I send that over next week?"</li>
+
+        <li class="action-propose"><span class="action-label">Propose:</span> Schedule a follow-up conversation focused on business valuation optimization — what he can do now to increase the firm's value by reducing key-person risk and documenting processes.</li>
+      </ul>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer">
+      <span class="disclaimer-icon">&#9878;</span>
+      This briefing is compiled from publicly available sources. Verify all information directly with the prospect.
+      Not intended as financial advice. Confidential — prepared for James Pinder.
+      <br>
+      Confidence: HIGH ●●●●● &middot; Sources: 102 &middot; Researched: February 7, 2026
+    </div>
+
+  </div>
+</body>
+</html>
